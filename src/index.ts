@@ -203,6 +203,7 @@ async function main(source: string, options: Options) {
             message: 'Select agents to install skills to',
             options: allAgentChoices,
             required: true,
+            initialValues: Object.keys(agents) as AgentType[],
           });
 
           if (p.isCancel(selected)) {
@@ -265,19 +266,41 @@ async function main(source: string, options: Options) {
       installGlobally = scope as boolean;
     }
 
-    console.log();
-    p.log.step(chalk.bold('Installation Summary'));
-
+    // Build installation summary table
+    const summaryLines: string[] = [];
+    
+    // Find the longest agent name for padding
+    const maxAgentLen = Math.max(...targetAgents.map(a => agents[a].displayName.length));
+    
+    // Check if any skill will be overwritten
+    const overwriteStatus = new Map<string, Map<string, boolean>>();
     for (const skill of selectedSkills) {
-      p.log.message(`  ${chalk.cyan(getSkillDisplayName(skill))}`);
+      const agentStatus = new Map<string, boolean>();
       for (const agent of targetAgents) {
-        const path = getInstallPath(skill.name, agent, { global: installGlobally });
-        const installed = await isSkillInstalled(skill.name, agent, { global: installGlobally });
-        const status = installed ? chalk.yellow(' (will overwrite)') : '';
-        p.log.message(`    ${chalk.dim('→')} ${agents[agent].displayName}: ${chalk.dim(path)}${status}`);
+        agentStatus.set(agent, await isSkillInstalled(skill.name, agent, { global: installGlobally }));
+      }
+      overwriteStatus.set(skill.name, agentStatus);
+    }
+    
+    for (const skill of selectedSkills) {
+      if (summaryLines.length > 0) summaryLines.push(''); // separator between skills
+      summaryLines.push(chalk.bold.cyan(getSkillDisplayName(skill)));
+      summaryLines.push('');
+      summaryLines.push(`  ${chalk.bold('Agent'.padEnd(maxAgentLen + 2))}${chalk.bold('Directory')}`);
+      
+      for (const agent of targetAgents) {
+        const fullPath = getInstallPath(skill.name, agent, { global: installGlobally });
+        // Strip the skill name from the end to show just the base directory
+        const basePath = fullPath.replace(/\/[^/]+$/, '/');
+        const installed = overwriteStatus.get(skill.name)?.get(agent) ?? false;
+        const status = installed ? chalk.yellow(' (overwrite)') : '';
+        const agentName = agents[agent].displayName.padEnd(maxAgentLen + 2);
+        summaryLines.push(`  ${agentName}${chalk.dim(basePath)}${status}`);
       }
     }
+    
     console.log();
+    p.note(summaryLines.join('\n'), 'Installation Summary');
 
     if (!options.yes) {
       const confirmed = await p.confirm({ message: 'Proceed with installation?' });
@@ -332,18 +355,32 @@ async function main(source: string, options: Options) {
       // Group by skill name for cleaner output
       const bySkill = new Map<string, string[]>();
       for (const r of successful) {
-        const agents = bySkill.get(r.skill) || [];
-        agents.push(r.agent);
-        bySkill.set(r.skill, agents);
+        const skillAgents = bySkill.get(r.skill) || [];
+        skillAgents.push(r.agent);
+        bySkill.set(r.skill, skillAgents);
       }
       
       const skillCount = bySkill.size;
       const agentCount = new Set(successful.map(r => r.agent)).size;
-      p.log.success(chalk.green(`Installed ${skillCount} skill${skillCount !== 1 ? 's' : ''} to ${agentCount} agent${agentCount !== 1 ? 's' : ''}`));
       
-      for (const [skill, agents] of bySkill) {
-        p.log.message(`  ${chalk.green('✓')} ${skill} ${chalk.dim('→')} ${chalk.dim(agents.join(', '))}`);
+      // Build results list
+      const resultLines: string[] = [];
+      
+      for (const [skill, skillAgents] of bySkill) {
+        resultLines.push(`${chalk.green('✓')} ${chalk.bold(skill)}`);
+        for (const agent of skillAgents) {
+          resultLines.push(`  ${chalk.dim(agent)}`);
+        }
+        resultLines.push(''); // blank line between skills
       }
+      
+      // Remove trailing blank line
+      if (resultLines.length > 0 && resultLines[resultLines.length - 1] === '') {
+        resultLines.pop();
+      }
+      
+      const title = chalk.green(`Installed ${skillCount} skill${skillCount !== 1 ? 's' : ''} to ${agentCount} agent${agentCount !== 1 ? 's' : ''}`);
+      p.note(resultLines.join('\n'), title);
     }
 
     if (failed.length > 0) {
