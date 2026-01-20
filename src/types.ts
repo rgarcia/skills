@@ -1,4 +1,4 @@
-export type AgentType = 'opencode' | 'claude-code' | 'codex' | 'kiro-cli' | 'cursor' | 'amp' | 'kilo' | 'roo' | 'goose' | 'antigravity' | 'gemini-cli' | 'github-copilot' | 'clawdbot' | 'droid' | 'trae' | 'windsurf';
+export type AgentType = 'amp' | 'antigravity' | 'claude-code' | 'clawdbot' | 'codex' | 'cursor' | 'droid' | 'gemini-cli' | 'github-copilot' | 'goose' | 'kilo' | 'kiro-cli' | 'opencode' | 'roo' | 'trae' | 'windsurf';
 
 export interface Skill {
   name: string;

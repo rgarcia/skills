@@ -82,22 +82,22 @@ Skills can be installed to any of these supported agents. Use `-g, --global` to 
 <!-- available-agents:start -->
 | Agent | `--agent` | Project Path | Global Path |
 |-------|-----------|--------------|-------------|
-| OpenCode | `opencode` | `.opencode/skills/` | `~/.config/opencode/skills/` |
-| Claude Code | `claude-code` | `.claude/skills/` | `~/.claude/skills/` |
-| Codex | `codex` | `.codex/skills/` | `~/.codex/skills/` |
-| Kiro CLI | `kiro-cli` | `.kiro/skills/` | `~/.kiro/skills/` |
-| Cursor | `cursor` | `.cursor/skills/` | `~/.cursor/skills/` |
 | Amp | `amp` | `.agents/skills/` | `~/.config/agents/skills/` |
-| Kilo Code | `kilo` | `.kilocode/skills/` | `~/.kilocode/skills/` |
-| Roo Code | `roo` | `.roo/skills/` | `~/.roo/skills/` |
-| Goose | `goose` | `.goose/skills/` | `~/.config/goose/skills/` |
-| Gemini CLI | `gemini-cli` | `.gemini/skills/` | `~/.gemini/skills/` |
 | Antigravity | `antigravity` | `.agent/skills/` | `~/.gemini/antigravity/skills/` |
-| GitHub Copilot | `github-copilot` | `.github/skills/` | `~/.copilot/skills/` |
+| Claude Code | `claude-code` | `.claude/skills/` | `~/.claude/skills/` |
 | Clawdbot | `clawdbot` | `skills/` | `~/.clawdbot/skills/` |
+| Codex | `codex` | `.codex/skills/` | `~/.codex/skills/` |
+| Cursor | `cursor` | `.cursor/skills/` | `~/.cursor/skills/` |
 | Droid | `droid` | `.factory/skills/` | `~/.factory/skills/` |
-| Windsurf | `windsurf` | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
+| Gemini CLI | `gemini-cli` | `.gemini/skills/` | `~/.gemini/skills/` |
+| GitHub Copilot | `github-copilot` | `.github/skills/` | `~/.copilot/skills/` |
+| Goose | `goose` | `.goose/skills/` | `~/.config/goose/skills/` |
+| Kilo Code | `kilo` | `.kilocode/skills/` | `~/.kilocode/skills/` |
+| Kiro CLI | `kiro-cli` | `.kiro/skills/` | `~/.kiro/skills/` |
+| OpenCode | `opencode` | `.opencode/skills/` | `~/.config/opencode/skills/` |
+| Roo Code | `roo` | `.roo/skills/` | `~/.roo/skills/` |
 | Trae | `trae` | `.trae/skills/` | `~/.trae/skills/` |
+| Windsurf | `windsurf` | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
 <!-- available-agents:end -->
 
 > [!NOTE]
@@ -153,22 +153,21 @@ The CLI searches for skills in these locations within a repository:
 - `skills/.curated/`
 - `skills/.experimental/`
 - `skills/.system/`
-- `.opencode/skills/`
+- `.agent/skills/`
+- `.agents/skills/`
 - `.claude/skills/`
 - `.codex/skills/`
-- `.kiro/skills/`
 - `.cursor/skills/`
-- `.agents/skills/`
-- `.kilocode/skills/`
-- `.roo/skills/`
-- `.goose/skills/`
-- `.gemini/skills/`
-- `.agent/skills/`
-- `.github/skills/`
-- `./skills/`
 - `.factory/skills/`
-- `.windsurf/skills/`
+- `.gemini/skills/`
+- `.github/skills/`
+- `.goose/skills/`
+- `.kilocode/skills/`
+- `.kiro/skills/`
+- `.opencode/skills/`
+- `.roo/skills/`
 - `.trae/skills/`
+- `.windsurf/skills/`
 <!-- skill-discovery:end -->
 
 If no skills are found in standard locations, a recursive search is performed.
@@ -216,20 +215,20 @@ Telemetry is also automatically disabled in CI environments.
 
 ## Related Links
 
-- [Vercel Agent Skills Repository](https://github.com/vercel-labs/agent-skills)
 - [Agent Skills Specification](https://agentskills.io)
-- [OpenCode Skills Documentation](https://opencode.ai/docs/skills)
-- [Claude Code Skills Documentation](https://code.claude.com/docs/en/skills)
-- [Codex Skills Documentation](https://developers.openai.com/codex/skills)
-- [Cursor Skills Documentation](https://cursor.com/docs/context/skills)
-- [Kiro CLI Skills Documentation](https://kiro.dev/docs/cli/custom-agents/configuration-reference/#skill-resources)
-- [Gemini CLI Skills Documentation](https://geminicli.com/docs/cli/skills/)
 - [Amp Skills Documentation](https://ampcode.com/manual#agent-skills)
 - [Antigravity Skills Documentation](https://antigravity.google/docs/skills)
-- [GitHub Copilot Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
-- [Roo Code Skills Documentation](https://docs.roocode.com/features/skills)
+- [Claude Code Skills Documentation](https://code.claude.com/docs/en/skills)
 - [Clawdbot Skills Documentation](https://docs.clawd.bot/tools/skills)
+- [Codex Skills Documentation](https://developers.openai.com/codex/skills)
+- [Cursor Skills Documentation](https://cursor.com/docs/context/skills)
+- [Gemini CLI Skills Documentation](https://geminicli.com/docs/cli/skills/)
+- [GitHub Copilot Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
+- [Kiro CLI Skills Documentation](https://kiro.dev/docs/cli/custom-agents/configuration-reference/#skill-resources)
+- [OpenCode Skills Documentation](https://opencode.ai/docs/skills)
+- [Roo Code Skills Documentation](https://docs.roocode.com/features/skills)
 - [Trae Skills Documentation](https://docs.trae.ai/ide/skills)
+- [Vercel Agent Skills Repository](https://github.com/vercel-labs/agent-skills)
 
 ## License
 
